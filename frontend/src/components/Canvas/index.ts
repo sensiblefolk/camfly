@@ -1,7 +1,7 @@
 import { fabric } from 'fabric';
 import AddImage from './AddImage';
 
-// apply fabric.js filter resize algorithm to remove noise in image
+// apply fabric.js filter resize algorithm to remove noise in image control
 const imageFilterResize = (canvas: fabric.Canvas, img: fabric.Image) => {
     const scale = canvas.getHeight() / (img.height as number);
 
