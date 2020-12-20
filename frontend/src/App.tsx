@@ -5,6 +5,7 @@ import { Stack } from '@fluentui/react';
 
 import routes from './routes';
 import { Layout } from './Layout';
+// import { history } from './index';
 
 function App() {
     return (

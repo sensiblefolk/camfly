@@ -32,6 +32,36 @@ const routesPath = [
         exact: true,
         component: lazyLoading(() => import('../pages/views/campaign/new-campaign')),
     },
+    {
+        path: '/auth/login',
+        key: 'login',
+        component: lazyLoading(() => import('../pages/auth/login')),
+        exact: true,
+    },
+    {
+        path: '/auth/register',
+        key: 'register',
+        component: lazyLoading(() => import('../pages/auth/register')),
+        exact: true,
+    },
+    {
+        path: '/auth/forgot-password',
+        key: 'forgot-password',
+        component: lazyLoading(() => import('../pages/auth/forgot-password')),
+        exact: true,
+    },
+    {
+        path: '/auth/actions',
+        key: 'actions',
+        component: lazyLoading(() => import('../pages/auth/actions')),
+        exact: true,
+    },
+    {
+        path: '/auth/success',
+        key: 'success',
+        component: lazyLoading(() => import('../pages/auth/success')),
+        exact: true,
+    },
 ];
 
 const routes = (

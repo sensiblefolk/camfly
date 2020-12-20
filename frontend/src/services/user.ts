@@ -6,12 +6,8 @@ import 'firebase/storage';
 // import 'firebase/analytics';
 import dayjs from 'dayjs';
 
-import {client} from '../configureApollo';
-import { LOAD_USER } from '../graphql';
-
 // get current node running enviroment
-const enviroment = process.env.NODE_ENV === 'development' ? 'DEV' : 'PROD';
-
+const enviroment = 'PROD';
 const firebaseConfig = {
     apiKey: process.env[`REACT_APP_FIREBASE_${enviroment}_APIKEY`],
     authDomain: process.env[`REACT_APP_FIREBASE_${enviroment}_AUTHDOMAIN`],
@@ -25,7 +21,6 @@ const firebaseConfig = {
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 // firebaseApp.analytics();
-const provider = new firebase.auth.GoogleAuthProvider();
 export const firebaseAuth = firebase.auth;
 
 export default firebaseApp;
@@ -45,37 +40,25 @@ export async function login(email: string, password: string) {
         });
 }
 
-async function updateProfile(name: string, phone: string, referred: boolean, referreId: string, user: any) {
+async function updateProfile(name: string, user: any) {
     const { uid, email } = user;
     const userRef = firebase.database().ref(`users/${uid}`);
     return userRef
-        .set({ name, phone, email, currency: 'NGN', referred, referreId, role: 'user' })
+        .set({ name, email, currency: 'USD', role: 'user' })
         .then(() => true)
         .catch((_error) => false);
 }
 
-export async function registerEmail(email: string, name: string, phone: string, password: string, referred: boolean, referreeId: string) {
+export async function registerEmail(email: string, name: string, password: string) {
     return firebaseAuth()
         .createUserWithEmailAndPassword(email, password)
         .then(async (result) => {
-            await updateProfile(name, phone, referred, referreeId, result?.user);
+            await updateProfile(name, result?.user);
             return result;
         })
         .catch((error) => {
             notification.warning({
-                message: "Registration Error",
-                description: error.message,
-            });
-        });
-}
-
-export async function loginWithGoogle() {
-    return firebaseAuth()
-        .signInWithPopup(provider)
-        .then(() => true)
-        .catch((error) => {
-            notification.warning({
-                message: error.code,
+                message: 'Registration Error',
                 description: error.message,
             });
         });
@@ -102,42 +85,6 @@ function getCurrentUser(auth: firebase.auth.Auth) {
                 }
             }, reject);
         });
-};
-
-// load current user account from database
-export async function getUserAccountFromDatabase() {
-    try {
-        const result = await client.query({
-            query: LOAD_USER,
-            fetchPolicy: 'network-only',
-        });
-        const data = result?.data;
-        const userData = data?.userPrivate
-        if (userData?.length > 0) {
-            const { id, first_name, last_name, email, avatar, currency, address, dateofbirth, gender, state, nextofkin, phone, country, occupation } = userData[0];
-            return {
-                id,
-                name: `${first_name} ${last_name}`,
-                email,
-                currency,
-                address,
-                dateofbirth,
-                gender,
-                avatar,
-                country,
-                phone,
-                occupation,
-                state,
-                nextOfKin: nextofkin
-            }
-        } else {
-            return {
-                currency: 'NGN', address: '', state: '', gender: "", nextOfKin: '', dateofbirth: '', phone: '', country: 'Nigeria', occupation: ''
-            };
-        };
-    } catch (error) {
-        console.error(error)
-    }
 };
 
 export async function sendUserVerificationEmail() {

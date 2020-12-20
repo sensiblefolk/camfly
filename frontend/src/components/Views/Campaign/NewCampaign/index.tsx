@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Stack, IStackTokens } from '@fluentui/react';
-
-import { fabric, AddImage, imageFilterResize } from '../../../Canvas';
-import { useFabricCanvas } from '../../../../hooks/useFabricCanvas';
 import { Button } from 'antd';
+
+import { useFabricCanvas, useUploadImage } from '../../../../hooks';
+import AddImage from '../../../Utility/AddImage';
+
 
 type Props = {
     id: string;
@@ -13,28 +14,13 @@ type Props = {
 const stackTokens: IStackTokens = { childrenGap: 14 };
 
 export const NewCampaign = ({ id, title }: Props) => {
-    const { canvas } = useFabricCanvas();
-    const [image, setImage] = useState('');
-
-    // add image to canvas
-    const addImageToCanvas = (blobData: any) => {
-        fabric.Image.fromURL(
-            blobData,
-            (img) => {
-                imageFilterResize(canvas, img);
-                canvas.add(img);
-                canvas.centerObject(img);
-                canvas.setActiveObject(img);
-                canvas.renderAll();
-            },
-            { crossOrigin: 'Anonymous' },
-        );
-    };
+    const { canvas, addImageToCanvas } = useFabricCanvas();
+    const { status, imageUrl, uploadImage } = useUploadImage();
 
     // save canvas data on save button click
     const onSave = (width: number, height: number) => {
-        const data = canvas.toJSON();
-        console.log('canvas data', data);
+        const canvasData = canvas.toJSON();
+        console.log('canvas data', canvasData);
         const img = canvas.toDataURL({
             format: 'png',
             quality: 0.9,
@@ -42,9 +28,10 @@ export const NewCampaign = ({ id, title }: Props) => {
             height,
             enableRetinaScaling: true,
         });
-        console.log('img', img);
-        setImage(img);
+        uploadImage(img, 'image/png');
     };
+
+    console.log('image data out', imageUrl, status);
 
     return (
         <Stack tokens={stackTokens} horizontalAlign="stretch">
@@ -63,7 +50,6 @@ export const NewCampaign = ({ id, title }: Props) => {
                         </Button>
                     </Stack>
                     <canvas className="canvas-border" id="canvas"></canvas>
-                    <img src={image} alt="" />
                 </Stack>
             </Stack.Item>
         </Stack>

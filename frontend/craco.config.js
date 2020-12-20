@@ -8,8 +8,8 @@ module.exports = {
                 lessLoaderOptions: {
                     lessOptions: {
                         modifyVars: {
-                            '@primary-color': '#995829',
-                            '@primary-color-light': '#c2906d',
+                            '@primary-color': '#c72259',
+                            '@primary-color-light': '#dd6f94',
                             '@normal-color': '#e4e9f0',
                             '@background-color-light': '#f2f4f8',
                             '@background-color-base': '#f2f4f8',
@@ -27,8 +27,8 @@ module.exports = {
                             '@shadow-2': '0 0px 35px -5px rgba(0, 0, 0, 0.15)',
                             '@item-hover-bg': '@normal-color',
 
-                            '@link-color': '#529a7b',
-                            '@link-hover-color': "c27b48(~`colorPalette('@{link-color}', 5) `)",
+                            '@link-color': '#ce376a',
+                            '@link-hover-color': "color(~`colorPalette('@{link-color}', 5) `)",
                             '@link-active-color': "color(~`colorPalette('@{link-color}', 7) `)",
                             '@progress-steps-item-bg': '#1E9450',
                             '@progress-default-color': '#1E9450',

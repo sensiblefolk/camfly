@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "frontend"
+		},
+		{
+			"path": "server/api/General"
+		},
+		{
+			"path": "server/api/Paystack"
+		},
+		{
+			"path": "server/api/functions"
+		}
+	],
+	"settings": {
+		"debug.internalConsoleOptions": "neverOpen"
+	}
+}

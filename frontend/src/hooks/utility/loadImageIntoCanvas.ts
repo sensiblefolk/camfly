@@ -1,21 +1,4 @@
 import { fabric } from 'fabric';
-import AddImage from './AddImage';
-
-// apply fabric.js filter resize algorithm to remove noise in image control
-const imageFilterResize = (canvas: fabric.Canvas, img: fabric.Image) => {
-    const scale = canvas.getHeight() / (img.height as number);
-
-    img.filters?.push(
-        new fabric.Image.filters.Resize({
-            resizeType: 'sliceHack',
-            scaleX: scale,
-            scaleY: scale,
-        }),
-    );
-    img.scaleToWidth(canvas.getWidth());
-
-    img.applyFilters();
-};
 
 // load image and set fabric background
 const loadImageIntoCanvas = (blobData: string, canvas: fabric.Canvas) => {
@@ -41,4 +24,4 @@ const loadImageIntoCanvas = (blobData: string, canvas: fabric.Canvas) => {
     });
 };
 
-export { fabric, AddImage, imageFilterResize, loadImageIntoCanvas };
+export default loadImageIntoCanvas;

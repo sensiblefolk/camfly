@@ -7,7 +7,6 @@ import { history } from '../../index';
 import { isAuthLayout } from '../../services/helper';
 import {
     login,
-    loginWithGoogle,
     currentAccount,
     registerEmail,
     logout,
@@ -15,18 +14,15 @@ import {
     forgotPassword,
     passwordReset,
     verifyEmail,
-    getUserAccountFromDatabase,
 } from '../../services/user';
 import {
     LOGIN,
-    LOGIN_WITH_GOOGLE,
     LOAD_CURRENT_ACCOUNT,
     LOGOUT,
     REGISTER_EMAIL,
     FORGOT_PASSWORD,
     PASSWORD_RESET,
     VERIFY_EMAIL,
-    UserState,
 } from './types';
 import { cache } from '../../configureApollo';
 
@@ -40,6 +36,7 @@ export function* ForgotPassword({ payload }: { payload: { email: string } }) {
         yield history.push('/auth/login');
     }
 }
+
 export function* PasswordReset({ payload }: { payload: { password: string; query: string } }) {
     const { password, query } = payload;
     yield call(passwordReset, password, query);
@@ -77,30 +74,17 @@ export function* Login({ payload }: { payload: { password: string; email: string
     });
 }
 
-export function* LoginWithGoogle() {
-    const success = yield call(loginWithGoogle);
-    yield put({ type: 'user/LOAD_CURRENT_ACCOUNT' });
-    if (success) {
-        const navigateTo = prevLocation ? prevLocation : '/';
-        yield history.push(navigateTo);
-        yield message.success('You are logged in');
-    }
-}
-
 type IRegisterEmail = {
     payload: {
         email: string;
         password: string;
         firstname: string;
         lastname: string;
-        phone: string;
-        referred: boolean;
-        referralCode: string;
     };
 };
 
 export function* RegisterEmail({ payload }: IRegisterEmail) {
-    const { email, password, firstname, lastname, phone, referred, referralCode } = payload;
+    const { email, password, firstname, lastname } = payload;
     const fullname = `${firstname} ${lastname}`;
     yield put({
         type: 'user/SET_STATE',
@@ -108,7 +92,7 @@ export function* RegisterEmail({ payload }: IRegisterEmail) {
             loading: true,
         },
     });
-    const success = yield call(registerEmail, email.trim(), fullname.trim(), phone, password, referred, referralCode);
+    const success = yield call(registerEmail, email.trim(), fullname.trim(), password);
 
     if (success) {
         onVerifyEmailTrigger = true;
@@ -134,10 +118,8 @@ export function* RegisterEmail({ payload }: IRegisterEmail) {
 
 export function* LoadCurrentAccount() {
     const response = yield call(currentAccount);
-    const user: UserState = yield call(getUserAccountFromDatabase);
 
     if (response) {
-        const { currency, address, state, gender, nextOfKin, dateofbirth, phone, country, occupation } = user;
         const { uid: id, email, photoURL: avatar, displayName: name, emailVerified, metadata } = response;
         const creationTime = dayJs(metadata?.creationTime).valueOf();
         const lastSignInTime = dayJs(metadata?.lastSignInTime).valueOf();
@@ -147,19 +129,11 @@ export function* LoadCurrentAccount() {
                 type: 'user/SET_STATE',
                 payload: {
                     id,
-                    name: user?.name || name,
-                    email: user?.email || email,
-                    currency,
-                    address,
-                    state,
-                    gender,
-                    nextOfKin,
-                    occupation,
-                    country,
-                    dateofbirth,
-                    phone,
+                    name,
+                    email,
+                    currency: 'USD',
                     emailVerified,
-                    avatar: user?.avatar || avatar,
+                    avatar,
                     role: 'user',
                     authorized: true,
                     creationTime,
@@ -229,7 +203,6 @@ export default function* rootSaga() {
         takeLatest(VERIFY_EMAIL as any, VerifyEmail),
         takeLatest(FORGOT_PASSWORD as any, ForgotPassword),
         takeLatest(PASSWORD_RESET as any, PasswordReset),
-        takeLatest(LOGIN_WITH_GOOGLE as any, LoginWithGoogle),
         takeLatest(REGISTER_EMAIL as any, RegisterEmail),
         takeEvery(LOAD_CURRENT_ACCOUNT as any, LoadCurrentAccount),
         takeLatest(LOGOUT as any, LogOut),

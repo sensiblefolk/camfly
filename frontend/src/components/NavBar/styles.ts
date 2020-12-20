@@ -1,4 +1,4 @@
-import { IIconStyles, mergeStyleSets } from '@fluentui/react';
+import { IIconStyles } from '@fluentui/react';
 
 export const itemStyles: React.CSSProperties = {
     display: 'flex',
@@ -12,9 +12,3 @@ export const ringerIconStyles: IIconStyles = {
     },
 };
 
-export const styles = mergeStyleSets({
-    active: {
-        textDecoration: 'underline',
-        color: '#a5673b',
-    },
-});

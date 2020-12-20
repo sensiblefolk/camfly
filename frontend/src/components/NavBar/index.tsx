@@ -7,7 +7,6 @@ import { UserMenu } from './UserMenu';
 import { Logo } from './Logo';
 import { LeftMenu } from './Menu/LeftMenu';
 import { RootUserState, RootSettingState } from '../../typings';
-import { styles } from './styles';
 import { menus } from '../../services/menu';
 
 // TS infers type: (state: RootState)
@@ -40,10 +39,16 @@ export const NavBar = () => {
                         </Stack>
                     </Stack.Item>
                     <Stack.Item>
-                        <Stack tokens={{ childrenGap: 20 }} horizontal>
+                        <Stack tokens={{ childrenGap: 20, padding: 10 }} horizontal horizontalAlign="space-between">
                             {!isMobileView &&
                                 menus.map((menu) => (
-                                    <NavLink key={menu.key} to={menu.url} activeClassName={styles.active}>
+                                    <NavLink
+                                        className="menu-link"
+                                        exact={true}
+                                        key={menu.key}
+                                        to={menu.url}
+                                        activeClassName='active'
+                                    >
                                         <Text variant="mediumPlus">{menu.name}</Text>
                                     </NavLink>
                                 ))}
