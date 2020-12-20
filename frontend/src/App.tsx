@@ -1,20 +1,23 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-
+import { ConnectedRouter } from 'connected-react-router';
+import { History } from 'history';
 import { Stack } from '@fluentui/react';
 
 import routes from './routes';
 import { Layout } from './Layout';
-// import { history } from './index';
 
-function App() {
+interface AppProps {
+    history: History;
+}
+
+function App({ history }: AppProps) {
     return (
-        <Router>
+        <ConnectedRouter history={history}>
             <Stack tokens={{ childrenGap: 10, padding: '1rem 1rem 0 1rem' }}>
                 <Layout />
                 {routes}
             </Stack>
-        </Router>
+        </ConnectedRouter>
     );
 }
 

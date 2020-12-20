@@ -74,7 +74,7 @@ const ForgotPassword = () => {
                 </Form.Item>
             </Form>
             <Stack horizontalAlign="center" styles={{ root: { paddingTop: '1rem' } }}>
-                <ActionButton iconProps={backIcon} allowDisabledFocus onClick={() => history.back()}>
+                <ActionButton iconProps={backIcon} allowDisabledFocus onClick={() => history.goBack()}>
                     <Text className={style.backPadding} variant="large">
                         Go Back
                     </Text>

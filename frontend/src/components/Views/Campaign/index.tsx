@@ -1,12 +1,14 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { Stack, IStackTokens, Text } from '@fluentui/react';
 import { Form, Button, Input } from 'antd';
+
+import { history } from '../../../index';
 
 const stackTokens: IStackTokens = { childrenGap: 20, maxWidth: '500px', maxHeight: '700px' };
 
 export const Campaign = () => {
-    const history = useHistory();
+    // const history = useHistory();
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
