@@ -21,13 +21,38 @@ type ICanvasProps = {
     canvas: fabric.Canvas;
     addImageToCanvas: Function;
     loadImageIntoCanvas: Function;
+    selectedObjects: fabric.Object[];
+    deleteSelected: Function;
 };
 
 export const useFabricCanvas = (): ICanvasProps => {
     const [canvas, setCanvas] = useState<fabric.Canvas>(initializeCanvas());
+    const [selectedObjects, setSelectedObject] = useState<fabric.Object[]>([]);
+
+    useEffect(() => {
+        const bindEvents = (canvas: fabric.Canvas) => {
+            canvas.on('selection:cleared', () => {
+                setSelectedObject([]);
+            });
+            canvas.on('selection:created', (e: any) => {
+                setSelectedObject(e.selected);
+            });
+            canvas.on('selection:updated', (e: any) => {
+                setSelectedObject(e.selected);
+            });
+        };
+        if (canvas) {
+            bindEvents(canvas);
+        }
+
+         return () => {
+             canvas.clear();
+         };
+    }, [canvas]);
 
     useEffect(() => {
         setCanvas(initializeCanvas());
+        
     }, []);
 
     // add image to canvas
@@ -45,5 +70,12 @@ export const useFabricCanvas = (): ICanvasProps => {
         );
     };
 
-    return { canvas, addImageToCanvas, loadImageIntoCanvas };
+    // delete selected canvas object from canvas
+    const deleteSelected = () => {
+        canvas.getActiveObjects().forEach((object) => canvas.remove(object));
+        canvas.discardActiveObject();
+        canvas.renderAll();
+    };
+
+    return { canvas, addImageToCanvas, loadImageIntoCanvas, selectedObjects, deleteSelected };
 };

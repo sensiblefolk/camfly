@@ -1,10 +1,14 @@
-import React from 'react';
-import { Stack, IStackTokens } from '@fluentui/react';
-import { Button } from 'antd';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { Stack, IStackTokens} from '@fluentui/react';
+import { useBoolean } from '@uifabric/react-hooks';
+import dayJs from 'dayjs';
 
-import { useFabricCanvas, useUploadImage } from '../../../../hooks';
-import AddImage from '../../../Utility/AddImage';
-
+import { useFabricCanvas, uploadImage } from '../../../../hooks';
+import { CampaignDialog } from '../../../Utility/CampaignDialog';
+import { NEW_CAMPAIGN } from '../graphql';
+import { CampaignHeader } from '../CampaignHeader'
 
 type Props = {
     id: string;
@@ -13,12 +17,29 @@ type Props = {
 
 const stackTokens: IStackTokens = { childrenGap: 14 };
 
-export const NewCampaign = ({ id, title }: Props) => {
-    const { canvas, addImageToCanvas } = useFabricCanvas();
-    const { status, imageUrl, uploadImage } = useUploadImage();
+export const NewCampaign = ({ title }: Props) => {
+    const history = useHistory();
+    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
+    const [dialogStatus, setdialogStatus] = useState<boolean>(false);
+    const [campaignId, setcampaignId] = useState('');;
+    const { canvas, addImageToCanvas, deleteSelected, selectedObjects } = useFabricCanvas();
 
-    // save canvas data on save button click
+    const toggleDialog = (): void => {
+        toggleHideDialog();
+        history.push('/')
+    }
+
+    // handle add new campaign mutation completion
+    const onMutationComplete = (campaign: any) => {
+        setcampaignId(campaign?.inserted_campaign_one?.id);
+    };
+
+    // new campaign mutation declaration
+    const [addCampaign, { loading, error }] = useMutation(NEW_CAMPAIGN, { onCompleted: onMutationComplete });
+
+    // save canvas data as an image and upload to database for campaign
     const onSave = (width: number, height: number) => {
+        toggleHideDialog();
         const canvasData = canvas.toJSON();
         console.log('canvas data', canvasData);
         const img = canvas.toDataURL({
@@ -28,30 +49,39 @@ export const NewCampaign = ({ id, title }: Props) => {
             height,
             enableRetinaScaling: true,
         });
-        uploadImage(img, 'image/png');
+        setdialogStatus(true);
+        uploadImage({ imageData: img, fileType: 'image/png', callback: storeInDatabase });
     };
 
-    console.log('image data out', imageUrl, status);
+    function storeInDatabase(imageUrl: string) {
+        setdialogStatus(false);
+        addCampaign({
+            variables: {
+                createdAt: dayJs().toISOString(),
+                imageUrl,
+                name: title,
+            },
+        });
+    }
 
     return (
         <Stack tokens={stackTokens} horizontalAlign="stretch">
-            <p>{title}</p>
+            <CampaignDialog
+                loading={dialogStatus || loading || !!error}
+                hideDialog={hideDialog}
+                toggleHideDialog={toggleDialog}
+                campaignId={campaignId}
+                title={title}
+            />
             <Stack.Item align="center">
-                <Stack>
-                    <Stack tokens={{ childrenGap: 10 }} horizontal verticalAlign="center">
-                        <AddImage addImage={addImageToCanvas} />
-                        <Button
-                            size="middle"
-                            type="primary"
-                            shape="round"
-                            onClick={() => onSave(canvas.width as number, canvas.height as number)}
-                        >
-                            save
-                        </Button>
-                    </Stack>
+                <h2>{title.split('')[0].toUpperCase() + title.slice(1)}</h2>
+            </Stack.Item>
+            <Stack.Item align="center">
+                <CampaignHeader addImageToCanvas={addImageToCanvas} selectedObjects={selectedObjects} deleteSelected={deleteSelected} onSave={onSave} />
+                <Stack.Item>
                     <canvas className="canvas-border" id="canvas"></canvas>
-                </Stack>
+                </Stack.Item>
             </Stack.Item>
         </Stack>
     );
-};
+};;

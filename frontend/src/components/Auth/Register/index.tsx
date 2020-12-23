@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Stack, IStackTokens, Text } from '@fluentui/react';
-import { Form, Button, Input, Select, Checkbox, Row, Col } from 'antd';
+import { Form, Button, Input, Checkbox, Row, Col } from 'antd';
 import { MailOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 
 import { Logo } from '../../NavBar/Logo';
@@ -15,21 +15,11 @@ const userSelector = (state: RootUserState) => state.user;
 
 const stackToken: IStackTokens = { childrenGap: 15 };
 
-const { Option } = Select;
-
 const Register = () => {
     const [form] = Form.useForm();
     const { loading } = useSelector(userSelector);
     const dispatch = useDispatch();
     const { search } = useLocation();
-
-    const countryCodeSelector = (
-        <Form.Item name="prefix" noStyle>
-            <Select style={{ width: 80 }}>
-                <Option value="234">+234</Option>
-            </Select>
-        </Form.Item>
-    );
 
     const onFinish = (values: any) => {
         dispatch({

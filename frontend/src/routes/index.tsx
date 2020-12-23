@@ -28,6 +28,12 @@ const routesPath = [
     },
     {
         path: '/campaign/:id/:title',
+        key: 'campaign-create',
+        exact: true,
+        component: lazyLoading(() => import('../pages/views/campaign/new-campaign')),
+    },
+    {
+        path: '/campaigns/:id',
         key: 'campaign-session',
         exact: true,
         component: lazyLoading(() => import('../pages/views/campaign/new-campaign')),

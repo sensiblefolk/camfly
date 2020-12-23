@@ -6,6 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import { Provider } from 'react-redux';
+import { ApolloProvider } from '@apollo/client';
 
 import createRootReducer from './redux/reducers';
 import sagas from './redux/saga';
@@ -13,6 +14,7 @@ import './index.less';
 import { lightTheme } from './customizedTheme';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { client } from './configureApollo';
 
 const history = createBrowserHistory();
 
@@ -33,9 +35,11 @@ loadTheme(lightTheme);
 
 ReactDOM.render(
     <React.StrictMode>
-        <Provider store={store}>
-            <App history={history} />
-        </Provider>
+        <ApolloProvider client={client}>
+            <Provider store={store}>
+                <App history={history} />
+            </Provider>
+        </ApolloProvider>
     </React.StrictMode>,
     document.getElementById('root'),
 );

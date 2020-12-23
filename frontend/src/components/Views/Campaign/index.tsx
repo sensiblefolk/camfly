@@ -8,12 +8,10 @@ import { history } from '../../../index';
 const stackTokens: IStackTokens = { childrenGap: 20, maxWidth: '500px', maxHeight: '700px' };
 
 export const Campaign = () => {
-    // const history = useHistory();
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
-        console.log(values);
-        history.push(`/campaign/1/${values?.title}`);
+        history.push(`/campaign/${Date.now()}/${values?.title}`);
     };
 
     return (

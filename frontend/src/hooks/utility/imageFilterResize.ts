@@ -2,7 +2,12 @@ import { fabric } from 'fabric';
 
 // apply fabric.js filter resize algorithm to remove noise in image control
 const imageFilterResize = (canvas: fabric.Canvas, img: fabric.Image) => {
-    const scale = canvas.getHeight() / (img.height as number);
+    const canvasHeight = canvas.getHeight();
+    const canvasWidth = canvas.getWidth();
+    const imageHeight = img.height as number;
+    const imageWidth = img.width as number;
+
+    const scale = canvasHeight / imageHeight;
 
     img.filters?.push(
         new fabric.Image.filters.Resize({
@@ -11,7 +16,8 @@ const imageFilterResize = (canvas: fabric.Canvas, img: fabric.Image) => {
             scaleY: scale,
         }),
     );
-    img.scaleToWidth(canvas.getWidth());
+    
+    imageWidth > canvasWidth && img.scaleToWidth(canvas.getWidth());
 
     img.applyFilters();
 };

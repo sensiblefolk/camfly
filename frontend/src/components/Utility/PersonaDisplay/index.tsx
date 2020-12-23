@@ -26,7 +26,14 @@ interface Props {
 // TS declaration for settings state
 const settingSelector = (state: RootSettingState) => state.settings;
 
-export const PersonaDisplay = ({ showTextInMobile, showText, text, imageUrl, desktopSize = PersonaSize.size40, mobileSize = PersonaSize.size32 }: Props) => {
+export const PersonaDisplay = ({
+    showTextInMobile,
+    showText,
+    text,
+    imageUrl,
+    desktopSize = PersonaSize.size32,
+    mobileSize = PersonaSize.size24,
+}: Props) => {
     const settings = useSelector(settingSelector);
     const { isMobileView } = settings;
     let textDefinition: string | undefined = '';
@@ -43,17 +50,12 @@ export const PersonaDisplay = ({ showTextInMobile, showText, text, imageUrl, des
     const userProfilePersona: IPersonaSharedProps = {
         imageUrl: imageUrl || '',
         imageInitials: text?.slice(0, 2),
-        size: !isMobileView ? desktopSize: mobileSize,
+        size: !isMobileView ? desktopSize : mobileSize,
         initialsColor: PersonaInitialsColor.darkBlue,
         showInitialsUntilImageLoads: true,
     };
 
     return (
-        <Persona
-            text={textDefinition}
-            {...userProfilePersona}
-            presence={PersonaPresence.none}
-            imageAlt={text || ''}
-        />
+        <Persona text={textDefinition} {...userProfilePersona} presence={PersonaPresence.none} imageAlt={text || ''} />
     );
 };

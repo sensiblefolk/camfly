@@ -11,6 +11,17 @@ export const cardStyle: IStackStyles = {
     },
 };
 
+export const editCardStyle: IStackStyles = {
+    root: {
+        ...Card,
+        borderRadius: '18px',
+        boxShadow: Depths.depth8,
+        paddingRight: '20px',
+        margin: '1rem 0',
+        width: 'max-content',
+    },
+};
+
 export const cardStyleHover: IStackStyles = {
     root: {
         ...Card,

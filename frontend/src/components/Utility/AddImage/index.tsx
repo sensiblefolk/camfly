@@ -51,7 +51,7 @@ const AddImage = ({ addImage }: Props) => {
                 <div className="file-input">
                     <input type="file" id="file" accept=".jpg,.png,.svg" className="file" onChange={uploadFile} />
                     <label htmlFor="file">
-                        <FontIcon iconName="Photo2Add" style={{ fontSize: '30px' }} />
+                        <FontIcon iconName="Photo2Add" style={{ fontSize: '25px' }} />
                     </label>
                 </div>
             )}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, IImageProps, ImageFit, Link } from '@fluentui/react';
+import { Link } from 'react-router-dom';
+import { Image, IImageProps, ImageFit } from '@fluentui/react';
 
 interface LogoProps {
     isMobileView: boolean;
@@ -11,7 +12,7 @@ interface LogoProps {
 export const Logo = (props: LogoProps) => {
     const { isMobileView = false, width = 220, height = 83 } = props;
 
-    const src = !isMobileView ? '../../../../assets/logo.png' : './assets/logo-mobile.png';
+    const src = !isMobileView ? '../../../../assets/logo.png' : '../../../../assets/logo-mobile.png';
     const imgWidth = !isMobileView ? width : 122;
     const imgHeight = !isMobileView ? height : 38;
 
@@ -25,7 +26,7 @@ export const Logo = (props: LogoProps) => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     return (
         <>
-            <Link href="/">
+            <Link to="/">
                 <Image {...(logoProps as any)} alt="camfly logo" />
             </Link>
         </>
