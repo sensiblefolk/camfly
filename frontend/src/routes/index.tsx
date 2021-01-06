@@ -36,7 +36,7 @@ const routesPath = [
         path: '/campaigns/:id',
         key: 'campaign-session',
         exact: true,
-        component: lazyLoading(() => import('../pages/views/campaign/new-campaign')),
+        component: lazyLoading(() => import('../pages/views/campaign/created-campaign')),
     },
     {
         path: '/auth/login',

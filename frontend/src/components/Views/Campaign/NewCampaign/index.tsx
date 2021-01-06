@@ -40,8 +40,8 @@ export const NewCampaign = ({ title }: Props) => {
     // save canvas data as an image and upload to database for campaign
     const onSave = (width: number, height: number) => {
         toggleHideDialog();
-        const canvasData = canvas.toJSON();
-        console.log('canvas data', canvasData);
+        // const canvasData = canvas.toJSON();
+        // console.log('canvas data', canvasData);
         const img = canvas.toDataURL({
             format: 'png',
             quality: 0.9,

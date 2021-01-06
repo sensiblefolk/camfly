@@ -2,7 +2,7 @@ import React from 'react';
 import { Stack, IStackTokens, Text, DefaultButton } from '@fluentui/react';
 
 import { styles, newCamPaignButton } from '../../style';
-import { ICampaign } from '../typings';
+import { ICampaign } from '../../typings';
 
 const campaignToken: IStackTokens = { childrenGap: 20 };
 

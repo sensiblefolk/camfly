@@ -6,8 +6,8 @@ import { Skeleton } from 'antd';
 
 import { styles, newCamPaignButton, addIconStyle } from '../style';
 import { CompletedCampaign } from './CompletedCampaign';
-import { HOME } from './graphql';
-import { IHome, ICampaign } from './typings';
+import { HOME } from '../graphql';
+import { IHome, ICampaign } from '../typings';
 
 const campaignToken: IStackTokens = { childrenGap: 20 };
 

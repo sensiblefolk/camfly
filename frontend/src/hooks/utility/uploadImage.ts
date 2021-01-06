@@ -2,7 +2,7 @@ import { message } from 'antd';
 
 type Props = {
     imageData: string;
-    fileType: string;
+    fileType?: string;
     callback: (imageUrl: string) => void;
 };
 
@@ -17,12 +17,12 @@ const uploadImage = ({ imageData, fileType, callback }: Props) => {
                 },
                 body: JSON.stringify({
                     base64ImageString: imageData,
-                    fileType: fileType,
+                    // fileType: fileType,
                 }),
             });
             const result = await r.json();
 
-            if (result.status === 'done') {
+            if (result?.status === 'done') {
                 callback(result.imageUrl);
             }
         })();
