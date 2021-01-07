@@ -6,12 +6,12 @@ import { imageFilterResize, loadImageIntoCanvas } from '../utility';
 let defaultWidth = window.outerWidth * 0.9 < 1280 ? window.outerWidth * 0.9 : 1200;
 let defaultHeight = window.outerHeight * 0.7 > defaultWidth ? defaultWidth : window.outerHeight * 0.7;
 
-const initializeCanvas = (width?: number, height?: number) => {
+const initializeCanvas = (canvasId: string, width?: number, height?: number) => {
     fabric.Object.prototype.transparentCorners = true;
     fabric.Object.prototype.cornerColor = 'blue';
     fabric.Object.prototype.cornerStyle = 'circle';
 
-    return new fabric.Canvas('canvas', {
+    return new fabric.Canvas(canvasId, {
         width: width || defaultWidth,
         height: height || defaultHeight,
     });
@@ -20,13 +20,13 @@ const initializeCanvas = (width?: number, height?: number) => {
 type ICanvasProps = {
     canvas: fabric.Canvas;
     addImageToCanvas: Function;
-    loadImageIntoCanvas: Function;
+    loadImageIntoCanvas: (base64Data: string, canvas: fabric.Canvas) => any;
     selectedObjects: fabric.Object[];
     deleteSelected: Function;
 };
 
-export const useFabricCanvas = (): ICanvasProps => {
-    const [canvas, setCanvas] = useState<fabric.Canvas>(initializeCanvas());
+export const useFabricCanvas = (canvasId: string = 'canvas'): ICanvasProps => {
+    const [canvas, setCanvas] = useState<fabric.Canvas>(initializeCanvas(canvasId));
     const [selectedObjects, setSelectedObject] = useState<fabric.Object[]>([]);
 
     useEffect(() => {
@@ -45,15 +45,14 @@ export const useFabricCanvas = (): ICanvasProps => {
             bindEvents(canvas);
         }
 
-         return () => {
-             canvas.clear();
-         };
+        // return () => {
+        //     canvas.dispose();
+        // };
     }, [canvas]);
 
     useEffect(() => {
-        setCanvas(initializeCanvas());
-        
-    }, []);
+        setCanvas(initializeCanvas(canvasId));
+    }, [canvasId]);
 
     // add image to canvas
     const addImageToCanvas = (blobData: any) => {
