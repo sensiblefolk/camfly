@@ -9,27 +9,35 @@ const httpLink = createHttpLink({
     uri: process.env.REACT_APP_DEV_DBURL,
 });
 
-
 const authLink = setContext(async (_, { headers }) => {
     // get the authentication token from local storage if it exists
     const token = await getToken();
     // return the headers to the context so httpLink can read them
-    return {
-        headers: {
-            ...headers,
-            Authorization: token ? `Bearer ${token}` : '',
-            'X-Hasura-Role': 'user'
-        },
-    };
+    if (token) {
+        return {
+            headers: {
+                ...headers,
+                Authorization: `Bearer ${token}`,
+                'X-Hasura-Role': 'user',
+            },
+        };
+    } else {
+        return {
+            headers: {
+                ...headers,
+                'X-Hasura-Role': 'anonymous',
+            },
+        };
+    }
 });
 
-const cache = new InMemoryCache()
+const cache = new InMemoryCache();
 
 const logoutLink = onError(({ networkError }: any) => {
     if (networkError && networkError?.statusCode === 401) {
         logout();
-    };
-})
+    }
+});
 
 const client = new ApolloClient({
     link: logoutLink.concat(authLink.concat(httpLink)),

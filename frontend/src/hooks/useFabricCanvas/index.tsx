@@ -45,9 +45,9 @@ export const useFabricCanvas = (canvasId: string = 'canvas'): ICanvasProps => {
             bindEvents(canvas);
         }
 
-        // return () => {
-        //     canvas.dispose();
-        // };
+        return () => {
+            canvas.clear();
+        };
     }, [canvas]);
 
     useEffect(() => {
@@ -73,7 +73,7 @@ export const useFabricCanvas = (canvasId: string = 'canvas'): ICanvasProps => {
     const deleteSelected = () => {
         canvas.getActiveObjects().forEach((object) => canvas.remove(object));
         canvas.discardActiveObject();
-        canvas.renderAll();
+        // canvas.renderAll();
     };
 
     return { canvas, addImageToCanvas, loadImageIntoCanvas, selectedObjects, deleteSelected };

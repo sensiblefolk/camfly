@@ -2,7 +2,6 @@ import { fabric } from 'fabric';
 
 // load image and set fabric background
 const loadImageIntoCanvas = (blobData: string, canvas: fabric.Canvas) => {
-    console.log('called once');
     fabric.Image.fromURL(blobData, (img) => {
         const imgWidth = img.width as number;
         const imgHeight = img.height as number;

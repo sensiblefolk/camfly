@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { Stack, IconButton } from '@fluentui/react';
 import { fabric } from 'fabric';
@@ -13,12 +13,21 @@ type Props = {
     addImageToCanvas: Function;
     selectedObjects: fabric.Object[];
     deleteSelected: Function;
-    onSave: Function;
+    onSave?: Function;
+    showDownload?: boolean;
+    renderButton?: ReactNode;
 };
 
 const settingsSelector = (state: RootSettingState) => state.settings;
 
-export const CampaignHeader = ({ addImageToCanvas, selectedObjects, deleteSelected, onSave }: Props) => {
+export const CampaignHeader = ({
+    addImageToCanvas,
+    selectedObjects,
+    deleteSelected,
+    onSave,
+    renderButton,
+    showDownload = false,
+}: Props) => {
     const { isMobileView } = useSelector(settingsSelector);
     return (
         <Stack tokens={{ childrenGap: 10 }} styles={editCardStyle} horizontal verticalAlign="center">
@@ -30,7 +39,7 @@ export const CampaignHeader = ({ addImageToCanvas, selectedObjects, deleteSelect
                     onClick={() => deleteSelected()}
                 />
             )}
-            <PayWithPaystack amount={9000} callback={onSave} />
+            {!showDownload ? <PayWithPaystack amount={9000} callback={onSave as Function} /> : <>{renderButton}</>}
         </Stack>
     );
 };
