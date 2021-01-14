@@ -7,7 +7,7 @@ Camfly is an on demand banner sharing tool that makes it dead simple to create e
 ## Tech Stack
 
 Languages:
-     - Javascript
+    - Javascript
     - Typescript
 Technology:
     - React
