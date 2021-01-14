@@ -2,22 +2,27 @@
 
 Camfly is an on demand banner sharing tool that makes it dead simple to create editable banner images on the fly.
 
----
-languages:
-- Javascript
-- Typescript
-technology:
-- React
-- Redux
-- Node.js
-- fabric.js
-- Graphql
-- azure functions
-- fluent Ui
-products
-- [Paystack](https://paystack.com)
-- [Hasura](https://hasura.io)
-- [Firebase](https://firebase.google.com)
+<!-- ![Finished App](https://github.com/londonappbrewery/Images/blob/master/clima-demo.gif) -->
+
+## Tech Stack
+
+Languages:
+    - Javascript
+    - Typescript
+Technology:
+    - React
+    - Redux
+    - Node.js
+    - fabric.js
+    - Graphql
+    - azure functions
+    - fluent Ui
+Products
+    - [Paystack](https://paystack.com)
+    - [Hasura](https://hasura.io)
+    - [Firebase](https://firebase.google.com)
+  
+___
   
 ## Contents
 
