@@ -2,6 +2,8 @@
 
 Camfly is an on demand banner sharing tool that makes it dead simple to create editable banner images on the fly.
 
+Visit [demo](https://cam-fly.web.app/auth/login)
+
 ![Finished App](https://github.com/sensiblefolk/camfly/blob/main/frontend/public/assets/Screen%20Capture_select-area_20210114095850.png)
 
 ## Technology
