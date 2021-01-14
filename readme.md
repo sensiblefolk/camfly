@@ -3,6 +3,7 @@
 Camfly is an on demand banner sharing tool that makes it dead simple to create editable banner images on the fly.
 
 ---
+
 languages:
 - Javascript
 - Typescript
@@ -18,6 +19,8 @@ products
 - [Paystack](https://paystack.com)
 - [Hasura](https://hasura.io)
 - [Firebase](https://firebase.google.com)
+
+---
   
 ## Contents
 
