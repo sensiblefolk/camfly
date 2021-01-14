@@ -6,21 +6,21 @@ Camfly is an on demand banner sharing tool that makes it dead simple to create e
 
 ## Tech Stack
 
-    - Languages:
-        - Javascript
-        - Typescript
-    - Technology:
-        - React
-        - Redux
-        - Node.js
-        - fabric.js
-        - Graphql
-        - azure functions
-        - fluent Ui
-    - Products
-        - [Paystack](https://paystack.com)
-        - [Hasura](https://hasura.io)
-        - [Firebase](https://firebase.google.com)
+Languages:
+     - Javascript
+    - Typescript
+Technology:
+    - React
+    - Redux
+    - Node.js
+    - fabric.js
+    - Graphql
+    - azure functions
+    - fluent Ui
+Products
+    - [Paystack](https://paystack.com)
+    - [Hasura](https://hasura.io)
+    - [Firebase](https://firebase.google.com)
   
 ## Contents
 
